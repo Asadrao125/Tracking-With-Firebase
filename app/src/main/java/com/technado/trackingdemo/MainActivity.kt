@@ -1,11 +1,9 @@
 package com.technado.trackingdemo
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -71,7 +69,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             )
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1f, locationListener)
+        locationManager.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER,
+            0,
+            1f,
+            locationListener
+        )
     }
 
     @SuppressLint("MissingPermission")
