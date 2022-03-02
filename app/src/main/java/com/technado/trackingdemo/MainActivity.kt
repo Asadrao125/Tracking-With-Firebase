@@ -1,5 +1,6 @@
 package com.technado.trackingdemo
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.location.LocationListener
 import android.location.LocationManager
@@ -12,6 +13,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     var mMap: GoogleMap? = null
@@ -62,19 +69,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         val locationListener = LocationListener { location ->
-            dbRef!!.setValue(
-                LocationModel(
-                    location.latitude,
-                    location.longitude
-                )
-            )
+            dbRef!!.setValue(LocationModel(location.latitude, location.longitude))
         }
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            0,
-            1f,
-            locationListener
-        )
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1f, locationListener)
     }
 
     @SuppressLint("MissingPermission")
@@ -99,5 +96,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             )
         }
+    }
+
+    fun checkPermission() {
+        Dexter.withContext(this)
+            .withPermissions(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ).withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: List<PermissionRequest?>?,
+                    token: PermissionToken?
+                ) {
+                    token!!.continuePermissionRequest()
+                }
+            }).check()
     }
 }

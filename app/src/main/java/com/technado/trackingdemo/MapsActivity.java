@@ -62,9 +62,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = new Location(LocationManager.GPS_PROVIDER);
                 location.setLatitude(Double.parseDouble(lat));
                 location.setLongitude(Double.parseDouble(lng));
-
-
-
                 mMap.clear();
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_car));
