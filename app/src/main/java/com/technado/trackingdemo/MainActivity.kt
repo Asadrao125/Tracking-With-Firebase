@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         gpsTracker = GPSTracker(this)
         lat = gpsTracker!!.getLatitude()
         lng = gpsTracker!!.getLongitude()
-        dbRef!!.setValue(LocationModel(lat, lng))
+        //dbRef!!.setValue(LocationModel(lat, lng))
 
         dbRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         val locationListener = LocationListener { location ->
-            dbRef!!.setValue(LocationModel(location.latitude, location.longitude))
+            dbRef!!.setValue(LocationModel(location.latitude, location.longitude, location.bearing))
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1f, locationListener)
     }
