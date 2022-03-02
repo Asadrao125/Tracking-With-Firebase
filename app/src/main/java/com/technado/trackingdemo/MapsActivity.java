@@ -59,13 +59,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String lat = dataSnapshot.child("latitude").getValue().toString();
                 String lng = dataSnapshot.child("longitude").getValue().toString();
 
-                Location location = new Location(LocationManager.GPS_PROVIDER);
+                Location location = new Location("");
                 location.setLatitude(Double.parseDouble(lat));
                 location.setLongitude(Double.parseDouble(lng));
                 mMap.clear();
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_car));
                 markerOptions.position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)));
+                markerOptions.anchor((float) 0.5, (float) 0.5);
                 markerOptions.title("My Location");
                 carMarker = mMap.addMarker(markerOptions);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)), 16.0f));
